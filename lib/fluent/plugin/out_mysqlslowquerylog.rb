@@ -68,6 +68,7 @@ class Fluent::MySQLSlowQueryLogOutput < Fluent::Output
     record['rows_examined'] = $4.to_i
 
     record['sql'] = @slowlogs[:"#{tag}"].map {|m| m.strip}.join(' ')
+    record['sql_no_digit'] = @slowlogs[:"#{tag}"].map {|m| m.strip}.join(' ').gsub(/\d/, '')
 
     time = date.to_i if date
     flush_emit(tag, time, record)

@@ -81,7 +81,8 @@ class MySQLSlowQueryLogOutputTest < Test::Unit::TestCase
       "lock_time"     => 5.7e-05,
       "rows_sent"     => 1,
       "rows_examined" => 7,
-      "sql"           => "SET timestamp=1357371822; SELECT count(*) FROM mysql.user WHERE user='root' and password='';"
+      "sql"           => "SET timestamp=1357371822; SELECT count(*) FROM mysql.user WHERE user='root' and password='';",
+      "sql_no_digit"  => "SET timestamp=; SELECT count(*) FROM mysql.user WHERE user='root' and password='';"
     }, d1.emits[0][2])
 
     assert_equal({
@@ -91,7 +92,8 @@ class MySQLSlowQueryLogOutputTest < Test::Unit::TestCase
       "lock_time"     => 7.8e-05,
       "rows_sent"     => 31,
       "rows_examined" => 81,
-      "sql"           => "SET timestamp=61357371822; select concat('select count(*) into @discard from `', TABLE_SCHEMA, '`.`', TABLE_NAME, '`') from information_schema.TABLES where ENGINE='MyISAM';"
+      "sql"           => "SET timestamp=61357371822; select concat('select count(*) into @discard from `', TABLE_SCHEMA, '`.`', TABLE_NAME, '`') from information_schema.TABLES where ENGINE='MyISAM';",
+      "sql_no_digit"  => "SET timestamp=; select concat('select count(*) into @discard from `', TABLE_SCHEMA, '`.`', TABLE_NAME, '`') from information_schema.TABLES where ENGINE='MyISAM';"
     }, d2.emits[0][2])
 
     assert_equal({
@@ -101,7 +103,8 @@ class MySQLSlowQueryLogOutputTest < Test::Unit::TestCase
       "lock_time"     => 0.000117,
       "rows_sent"     => 7,
       "rows_examined" => 7,
-      "sql"           => "use mysql; SET timestamp=1357376661; select * from user;"
+      "sql"           => "use mysql; SET timestamp=1357376661; select * from user;",
+      "sql_no_digit"  => "use mysql; SET timestamp=; select * from user;"
     }, d2.emits[1][2])
 
     assert_equal({
@@ -111,7 +114,8 @@ class MySQLSlowQueryLogOutputTest < Test::Unit::TestCase
       "lock_time"     => 0.0002,
       "rows_sent"     => 0,
       "rows_examined" => 0,
-      "sql"           => "SET timestamp=1357371822; select count(*) into @discard from `information_schema`.`EVENTS`;"
+      "sql"           => "SET timestamp=1357371822; select count(*) into @discard from `information_schema`.`EVENTS`;",
+      "sql_no_digit"  => "SET timestamp=; select count(*) into @discard from `information_schema`.`EVENTS`;"
     }, d3.emits[0][2])
 
     assert_equal({
@@ -121,7 +125,8 @@ class MySQLSlowQueryLogOutputTest < Test::Unit::TestCase
       "lock_time"     => 0.000182,
       "rows_sent"     => 0,
       "rows_examined" => 808,
-      "sql"           => "SET timestamp=1357371822; select count(*) into @discard from `information_schema`.`COLUMNS`;"
+      "sql"           => "SET timestamp=1357371822; select count(*) into @discard from `information_schema`.`COLUMNS`;",
+      "sql_no_digit"  => "SET timestamp=; select count(*) into @discard from `information_schema`.`COLUMNS`;"
     }, d3.emits[1][2])
 
     end
